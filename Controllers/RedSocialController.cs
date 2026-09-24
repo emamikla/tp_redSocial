@@ -8,7 +8,7 @@ public class RedSocialController : Controller
 {
     public IActionResult Index()
     {
-        if (!string.IsNullOrWhiteSpace(HttpContext.Session.GetString("NombreUsuario")))
+        if (SesionValida())
         {
             return RedirectToAction(nameof(Bienvenida));
         }
@@ -23,14 +23,12 @@ public class RedSocialController : Controller
 
     public IActionResult Bienvenida()
     {
-        if (!string.IsNullOrWhiteSpace(HttpContext.Session.GetString("NombreUsuario")))
+        if (SesionValida())
         {
             return View();
         }
-        else
-        {
-            return RedirectToAction(nameof(Index));
-        }
+
+        return RedirectToAction(nameof(Index));
     }
     
     [HttpPost]
@@ -86,5 +84,24 @@ public class RedSocialController : Controller
 
         ViewBag.ErrorMessage = "Nombre de usuario o contraseña incorrectos.";
         return View("Index");
+    }
+
+    private bool SesionValida()
+    {
+        string nombreUsuario = HttpContext.Session.GetString("NombreUsuario");
+
+        if (string.IsNullOrWhiteSpace(nombreUsuario))
+        {
+            return false;
+        }
+
+        bool existe = Bd.FijarseSiExisteUsuario(nombreUsuario);
+
+        if (!existe)
+        {
+            HttpContext.Session.Clear();
+        }
+
+        return existe;
     }
 }
