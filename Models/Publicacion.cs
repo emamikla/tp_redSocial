@@ -1,3 +1,5 @@
+namespace tp_redSocial.Models;
+
 using System;
 
 public class Publicacion
@@ -8,6 +10,10 @@ public class Publicacion
     public string Descripcion { get; set; }
     public string Imagen { get; set; }
     public DateTime FechaPublicacion { get; set; }
+
+    public string NombreUsuario { get; set; }
+    public int CantidadMeGusta { get; set; }
+    public bool UsuarioActualDioMeGusta { get; set; }
 
     public static bool ValidarDatosPublicacion(string titulo, string descripcion, string imagen)
     {

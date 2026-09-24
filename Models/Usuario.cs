@@ -1,13 +1,17 @@
+namespace tp_redSocial.Models;
+
 using System.Text.RegularExpressions;
 
 public class Usuario
 {
-    public string NombreUsuario { get; set; }
-    public string Contraseña { get; set; } 
+    public int Id { get; set; }
     public string Nombre { get; set; }
+    public string NombreUsuario { get; set; }
+    public string Contraseña { get; set; }
     public string Apellido { get; set; }
+    public string TipoUsuario { get; set; }
 
-    public static bool ValidarDatosRegistro( string nombreUsuario, string contraseña, string nombre, string apellido)
+    public static bool ValidarDatosRegistro(string nombre, string apellido, string nombreUsuario, string contraseña, string tipoUsuario)
     {
         bool esValido = true;
 
@@ -43,6 +47,11 @@ public class Usuario
             esValido = false;
         }
         else if (contraseña.Length <= 8)
+        {
+            esValido = false;
+        }
+
+        if (string.IsNullOrWhiteSpace(tipoUsuario))
         {
             esValido = false;
         }
