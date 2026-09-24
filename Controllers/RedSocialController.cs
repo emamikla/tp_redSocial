@@ -6,8 +6,13 @@ namespace tp_redSocial.Controllers;
 
 public class RedSocialController : Controller
 {
-    public IActionResult Login()
+    public IActionResult Index()
     {
+        if (!string.IsNullOrWhiteSpace(HttpContext.Session.GetString("NombreUsuario")))
+        {
+            return RedirectToAction(nameof(Bienvenida));
+        }
+
         return View();
     }
 
@@ -16,9 +21,9 @@ public class RedSocialController : Controller
         return View();
     }
 
-    public IActionResult Index()
+    public IActionResult Bienvenida()
     {
-        if (!string.IsNullOrEmpty(HttpContext.Session.GetString("NombreUsuario")))
+        if (!string.IsNullOrWhiteSpace(HttpContext.Session.GetString("NombreUsuario")))
         {
             return View();
         }
@@ -38,9 +43,15 @@ public class RedSocialController : Controller
     [HttpPost]
     public IActionResult ValidarUsuario(string nombre, string apellido, string nombreUsuario, string contraseña)
     {
-        Usuario usuario = new Usuario(nombreUsuario, contraseña, nombre, apellido);
+        Usuario usuario = new Usuario
+        {
+            Nombre = nombre,
+            Apellido = apellido,
+            NombreUsuario = nombreUsuario,
+            Contraseña = contraseña
+        };
 
-        if (!Usuario.ValidarDatosRegistro(usuario.NombreUsuario, usuario.Contraseña, usuario.Nombre, usuario.Apellido))
+        if (!Usuario.ValidarDatosRegistro(usuario.Nombre, usuario.Apellido, usuario.NombreUsuario, usuario.Contraseña))
         {
             return View("Registrarse");
         }
@@ -57,7 +68,7 @@ public class RedSocialController : Controller
         HttpContext.Session.SetString("Nombre", usuario.Nombre);
         HttpContext.Session.SetString("Apellido", usuario.Apellido);
 
-        return RedirectToAction(nameof(Index));
+        return RedirectToAction(nameof(Bienvenida));
     }
 
     [HttpPost]
@@ -70,10 +81,10 @@ public class RedSocialController : Controller
             HttpContext.Session.SetString("NombreUsuario", usuario.NombreUsuario);
             HttpContext.Session.SetString("Nombre", usuario.Nombre);
             HttpContext.Session.SetString("Apellido", usuario.Apellido);
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Bienvenida));
         }
 
         ViewBag.ErrorMessage = "Nombre de usuario o contraseña incorrectos.";
-        return View("Login");
+        return View("Index");
     }
 }

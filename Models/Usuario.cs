@@ -11,7 +11,7 @@ public class Usuario
     public string Apellido { get; set; }
     public string TipoUsuario { get; set; }
 
-    public static bool ValidarDatosRegistro(string nombre, string apellido, string nombreUsuario, string contraseña, string tipoUsuario)
+    public static bool ValidarDatosRegistro(string nombre, string apellido, string nombreUsuario, string contraseña)
     {
         bool esValido = true;
 
@@ -47,11 +47,6 @@ public class Usuario
             esValido = false;
         }
         else if (contraseña.Length <= 8)
-        {
-            esValido = false;
-        }
-
-        if (string.IsNullOrWhiteSpace(tipoUsuario))
         {
             esValido = false;
         }
