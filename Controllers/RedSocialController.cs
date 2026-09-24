@@ -36,7 +36,7 @@ public class RedSocialController : Controller
     }
 
     [HttpPost]
-    public IActionResult ValidarUsuario(string nombre, string apellido, string nombreUsuario, string contraseña, string tipoUsuario)
+    public IActionResult ValidarUsuario(string nombre, string apellido, string nombreUsuario, string contraseña)
     {
         Usuario usuario = new Usuario(nombreUsuario, contraseña, nombre, apellido);
 
