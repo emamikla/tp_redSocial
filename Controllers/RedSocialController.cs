@@ -45,13 +45,13 @@ public class RedSocialController : Controller
             return View("Registrarse");
         }
 
-        if (bd.FijarseSiExisteUsuario(nombreUsuario))
+        if (Bd.FijarseSiExisteUsuario(nombreUsuario))
         {
             ViewBag.ErrorMessage = "El nombre de usuario ya existe. Por favor, elija otro.";
             return View("Registrarse");
         }
 
-        bd.AgregarUsuario(usuario);
+        Bd.AgregarUsuario(usuario);
 
         HttpContext.Session.SetString("NombreUsuario", usuario.NombreUsuario);
         HttpContext.Session.SetString("TipoUsuario", usuario.TipoUsuario);
@@ -64,7 +64,7 @@ public class RedSocialController : Controller
     [HttpPost]
     public IActionResult IniciarSesion(string nombreUsuario, string contraseña)
     {
-        Usuario usuario = bd.ObtenerUsuario(nombreUsuario, contraseña);
+        Usuario usuario = Bd.ObtenerUsuario(nombreUsuario, contraseña);
 
         if (usuario != null)
         {
