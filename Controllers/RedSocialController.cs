@@ -38,9 +38,9 @@ public class RedSocialController : Controller
     [HttpPost]
     public IActionResult ValidarUsuario(string nombre, string apellido, string nombreUsuario, string contraseña, string tipoUsuario)
     {
-        Usuario usuario = new Usuario(nombre, nombreUsuario, contraseña, apellido, tipoUsuario);
+        Usuario usuario = new Usuario(nombreUsuario, contraseña, nombre, apellido);
 
-        if (!Usuario.ValidarDatosRegistro(usuario.Nombre, usuario.Apellido, usuario.NombreUsuario, usuario.Contraseña, usuario.TipoUsuario))
+        if (!Usuario.ValidarDatosRegistro(usuario.NombreUsuario, usuario.Contraseña, usuario.Nombre, usuario.Apellido))
         {
             return View("Registrarse");
         }
@@ -54,7 +54,6 @@ public class RedSocialController : Controller
         Bd.AgregarUsuario(usuario);
 
         HttpContext.Session.SetString("NombreUsuario", usuario.NombreUsuario);
-        HttpContext.Session.SetString("TipoUsuario", usuario.TipoUsuario);
         HttpContext.Session.SetString("Nombre", usuario.Nombre);
         HttpContext.Session.SetString("Apellido", usuario.Apellido);
 
@@ -69,7 +68,6 @@ public class RedSocialController : Controller
         if (usuario != null)
         {
             HttpContext.Session.SetString("NombreUsuario", usuario.NombreUsuario);
-            HttpContext.Session.SetString("TipoUsuario", usuario.TipoUsuario);
             HttpContext.Session.SetString("Nombre", usuario.Nombre);
             HttpContext.Session.SetString("Apellido", usuario.Apellido);
             return RedirectToAction(nameof(Index));
