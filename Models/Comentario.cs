@@ -1,15 +1,22 @@
 using System;
- 
-namespace RedSocial.Models
+
+public class Comentario
 {
-    public class Comentario
+    public int Id { get; set; }
+    public int IdPublicacion { get; set; }
+    public int IdUsuarioComenta { get; set; }
+    public string Texto { get; set; }
+    public DateTime FechaComentario { get; set; }
+
+    public static bool ValidarDatosComentario(string texto)
     {
-        public int Id { get; set; }
-        public int IdPublicacion { get; set; }
-        public int IdUsuarioComenta { get; set; }
-        public string Texto { get; set; }
-        public DateTime FechaComentario { get; set; }
-        public string NombreUsuario { get; set; }
+        bool esValido = true;
+
+        if (string.IsNullOrWhiteSpace(texto))
+        {
+            esValido = false;
+        }
+
+        return esValido;
     }
 }
- 
